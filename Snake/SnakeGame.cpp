@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-#include "SnakeGame.hpp"
+#include "shared/SnakeGame.hpp"
 
 bool snakeInitLevel(const std::string& levelFile, SnakeGameInfo& state)
 {
@@ -24,6 +24,7 @@ void snakeInitSnakes(SnakeGameInfo& state, int playerCount)
   std::vector<Point> tmpParts;
 
   state.playerCount = playerCount;
+  state.currentPlayer = 0;
   /* TODO: Fix so that we can have longer snakes at the beginning of the level.
      Currently we start with snakes of 1 in length. We rather want three-celled snakes. */
   tmpParts.push_back(point_outside_map);
@@ -96,6 +97,12 @@ int snakeGameTick(SnakeGameInfo& state, const std::vector<Direction>& input)
 {
   int aliveCount = 0;
   int winnerSnake = 0;
+
+  /* Kill snakes with illegal input */
+  for(int eachSnake = 0; eachSnake < (int)state.snakes.size(); ++eachSnake){
+    if(input[eachSnake] == IllegalDirection)
+      state.snakes[eachSnake].alive = false;
+  }
   /* Update to new positions */
   for(int eachSnake = 0; eachSnake < (int)state.snakes.size(); ++eachSnake){
     if(state.snakes[eachSnake].alive){

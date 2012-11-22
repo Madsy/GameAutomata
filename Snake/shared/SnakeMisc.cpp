@@ -79,7 +79,7 @@ bool snakeIsCellSnake(int x, int y, int snakeToSkip, const std::vector<SnakeInfo
     if(eachSnake == snakeToSkip) s = 1;
     else s = 0;
     for(int eachBodyPart = s; eachBodyPart < (int)snakes[eachSnake].bodyParts.size(); ++eachBodyPart){
-      if(snakes[eachSnake].bodyParts[eachBodyPart] == p) return true;
+      if(snakes[eachSnake].bodyParts[eachBodyPart] == p && snakes[eachSnake].alive) return true;
     }
   }
   return false;

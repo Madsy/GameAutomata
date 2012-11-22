@@ -1,5 +1,7 @@
 #include <algorithm>
-#include "SnakeGame.hpp"
+#include <cstdio>
+#include <iostream>
+#include "../../shared/SnakeGame.hpp"
 
 
 Direction AIMove(int player, SnakeGameInfo& state)
@@ -55,3 +57,35 @@ Direction AIMove(int player, SnakeGameInfo& state)
   return d;
 }
 
+void readGameState(SnakeGameInfo& state)
+{
+  std::vector<std::string> strm;
+  std::string line;
+  char szbuf[512];
+  
+  while(std::getline(std::cin, line)){
+    if(line == "END") break;
+    strm.push_back(line);
+  };
+  
+  snakeSerializeStreamToState(state, strm);
+}
+
+int main(int argc, char* argv[])
+{
+  SnakeGameInfo state;
+  Direction d;
+  readGameState(state);
+  while(state.snakes[state.currentPlayer].alive){
+    d = AIMove(state.currentPlayer, state);
+    switch(d){
+    case Up: std::cout << 'u'; break;
+    case Down: std::cout << 'd'; break;
+    case Left: std::cout << 'l'; break;
+    default: std::cout << 'r'; break;
+    }
+    std::cout.flush();
+    readGameState(state);
+  }
+  return 0;
+}

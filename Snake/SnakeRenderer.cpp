@@ -1,4 +1,4 @@
-#include "SnakeGame.hpp"
+#include "shared/SnakeGame.hpp"
 #include <cstring>
 #include <SDL/SDL.h>
 

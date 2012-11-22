@@ -35,6 +35,7 @@ struct SnakeGameInfo
   std::vector<SnakeInfo> snakes;
   Point foodPosition;
   int playerCount;
+  int currentPlayer;
   int levelWidth;
   int levelHeight;
   SDL_Surface* vs;
@@ -45,7 +46,8 @@ enum Direction
   Up = 0,
   Down = 1,
   Left = 2,
-  Right = 3
+  Right = 3,
+  IllegalDirection = 4
 };
 
 /* SnakeMisc.cpp */
@@ -60,14 +62,19 @@ bool snakeIsCellSnake(int x, int y, int snakeToSkip, const std::vector<SnakeInfo
 bool snakeIsCellClear(int x, int y, int snakeToSkip, const SnakeGameInfo& state);
 bool snakeIsSnakeGrowing(SnakeInfo& snake);
 
-/* SnakeAI.cpp */
+/* SnakeAI.cpp
 Direction AIMove(int player, SnakeGameInfo& state);
+*/
 
 /* SnakeRenderer.cpp */
 bool snakeInitGraphics(SnakeGameInfo& state);
 void snakeDestroyGraphics();
 void snakeRender(SnakeGameInfo& state);
 bool snakeShouldQuit();
+
+/* SnakeSerialization.cpp */
+void snakeSerializeStateToStream(const SnakeGameInfo& state, std::string& strm);
+bool snakeSerializeStreamToState(SnakeGameInfo& state, const std::vector<std::string>& strm);
 
 /* SnakeGame.cpp  */
 bool snakeInitLevel(const std::string& levelFile, SnakeGameInfo& state);
