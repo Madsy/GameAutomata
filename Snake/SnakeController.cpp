@@ -8,33 +8,6 @@
 #include <SDL/SDL.h>
 #include "shared/SnakeGame.hpp"
 
-/*
-static bool serialTest(SnakeGameInfo& state, std::string fileName)
-{
-  std::string strm, line;
-  SnakeGameInfo state2;
-  std::vector<std::string> sdata;
-  std::ofstream out;
-  std::ifstream in;
-
-  snakeSerializeStateToStream(state, strm);
-  out.open(fileName.c_str());
-  out << strm;
-  out.close();
-  in.open(fileName.c_str());
-  while(std::getline(in, line))
-    sdata.push_back(line);
-  if(!snakeSerializeStreamToState(state2, sdata)) return false;
-  return state.level.size() == state2.level.size() &&
-    state.snakes.size() == state2.snakes.size() &&
-    state.foodPosition.x == state2.foodPosition.x &&
-    state.foodPosition.y == state2.foodPosition.y &&
-    state.playerCount == state2.playerCount &&
-    state.levelWidth == state2.levelWidth &&
-    state.levelHeight == state2.levelHeight;
-}
-*/
-
 typedef boost::array<FILE*, 2> pipearr_t;
 struct childproc_t
 {
@@ -201,11 +174,8 @@ int main(int argc, char* argv[])
 
   do {
     snakeRender(state);
-    printf("[Server] Sending data.. \n");
     send_ipc(state, strms);
-    printf("[Server] Receving data.. \n");
     recv_ipc(state, playerInputs, strms);
-    printf("[Server] Running mainloop.. \n");
   } while((winner = snakeGameTick(state, playerInputs)) < 0 && !snakeShouldQuit());  
   destroy_ipc(procList, strms, numPlayers);
   if(!winner)

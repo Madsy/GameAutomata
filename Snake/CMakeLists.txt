@@ -10,6 +10,7 @@ SET( ${PROJECT_NAME}_SOURCES
 
 SET( AIS
     AIs/StupidAI
+	AIs/SmarterAI
 )
 
 ## Build rules for the main executable
